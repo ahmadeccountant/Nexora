@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nexora · Plan smarter. Deliver better.</title>
+  <meta name="description" content="Nexora is a demo project management app built with HTML, CSS and vanilla JavaScript. Data is fictional and stored in your browser.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%236257E8'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+  <!-- Apply the saved theme before first paint to avoid a flash. -->
+  <script>
+    (function () {
+      var theme = 'light';
+      try {
+        var saved = JSON.parse(localStorage.getItem('nexora.data') || 'null');
+        if (saved && saved.preferences && saved.preferences.theme === 'dark') theme = 'dark';
+        else if (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+      } catch (e) { /* storage unavailable: keep light */ }
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/responsive.css">
+
+  <!-- Pinned CDN versions. Both are optional at runtime: the app degrades to text if they fail to load. -->
+  <script defer src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.js"></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" data-open="false" aria-label="Primary">
+      <a class="brand" href="#/dashboard" aria-label="Nexora overview">
+        <svg class="brand-mark" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+          <rect width="32" height="32" rx="9" fill="currentColor"/>
+          <path d="M9 23V9l14 14V9" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="brand-text">
+          <span class="brand-name">Nexora</span>
+          <span class="brand-tagline">Plan smarter. Deliver better.</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Main">
+        <ul>
+          <li><a class="nav-link" data-route="dashboard" href="#/dashboard"><i data-lucide="layout-dashboard" class="icon" aria-hidden="true"></i><span>Overview</span></a></li>
+          <li><a class="nav-link" data-route="projects" href="#/projects"><i data-lucide="folder-kanban" class="icon" aria-hidden="true"></i><span>Projects</span></a></li>
+          <li><a class="nav-link" data-route="tasks" href="#/tasks"><i data-lucide="square-check-big" class="icon" aria-hidden="true"></i><span>My Tasks</span></a></li>
+          <li><a class="nav-link" data-route="kanban" href="#/kanban"><i data-lucide="kanban" class="icon" aria-hidden="true"></i><span>Kanban Board</span></a></li>
+          <li><a class="nav-link" data-route="team" href="#/team"><i data-lucide="users" class="icon" aria-hidden="true"></i><span>Team</span></a></li>
+          <li><a class="nav-link" data-route="analytics" href="#/analytics"><i data-lucide="chart-column" class="icon" aria-hidden="true"></i><span>Analytics</span></a></li>
+          <li><a class="nav-link" data-route="settings" href="#/settings"><i data-lucide="settings" class="icon" aria-hidden="true"></i><span>Settings</span></a></li>
+        </ul>
+      </nav>
+
+      <p class="sidebar-note">Demo workspace. Fictional data, saved only in this browser.</p>
+    </aside>
+    <div class="drawer-overlay" id="drawer-overlay" hidden></div>
+
+    <div class="main-column">
+      <header class="topbar">
+        <button type="button" class="icon-btn icon-btn-ghost menu-toggle" id="menu-toggle" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">
+          <i data-lucide="menu" class="icon" aria-hidden="true"></i>
+        </button>
+        <h1 class="topbar-title" id="page-title">Overview</h1>
+
+        <div class="search" id="search" role="search">
+          <i data-lucide="search" class="icon search-icon" aria-hidden="true"></i>
+          <label class="sr-only" for="global-search">Search projects and tasks</label>
+          <input id="global-search" class="search-input" type="search" placeholder="Search projects and tasks" autocomplete="off"
+                 role="combobox" aria-expanded="false" aria-controls="search-results" aria-autocomplete="list">
+          <div class="search-results" id="search-results" role="listbox" aria-label="Search results" hidden></div>
+        </div>
+
+        <div class="topbar-actions">
+          <div class="dropdown" id="notifications">
+            <button type="button" class="icon-btn icon-btn-ghost" id="notifications-button" aria-label="Notifications" aria-haspopup="true">
+              <i data-lucide="bell" class="icon" aria-hidden="true"></i>
+              <span class="count-badge" id="notifications-count" hidden>0</span>
+            </button>
+            <div class="dropdown-panel dropdown-panel-wide" id="notifications-panel"></div>
+          </div>
+
+          <button type="button" class="icon-btn icon-btn-ghost" id="theme-toggle" aria-label="Switch to dark theme">
+            <span id="theme-icon"></span>
+          </button>
+
+          <div class="dropdown" id="profile">
+            <button type="button" class="profile-button" id="profile-button" aria-haspopup="menu" aria-label="Profile menu">
+              <span class="avatar avatar-md" id="profile-avatar" aria-hidden="true">AM</span>
+              <span class="profile-name" id="profile-name">Alex Morgan</span>
+              <i data-lucide="chevron-down" class="icon" aria-hidden="true"></i>
+            </button>
+            <div class="dropdown-panel" id="profile-panel" role="menu" aria-label="Profile"></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="banner" id="storage-banner" role="status" hidden>
+        <i data-lucide="triangle-alert" class="icon" aria-hidden="true"></i>
+        <span class="banner-text"></span>
+      </div>
+
+      <main class="main" id="main" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <noscript><p style="padding:2rem">Nexora needs JavaScript to run.</p></noscript>
+</body>
+</html>
