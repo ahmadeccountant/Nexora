@@ -1,5 +1,6 @@
-# Nexora
-
+**Nexora**
+**Live Demo**
+https://ahmadeccountant.github.io/Nexora/
 **Plan smarter. Deliver better.**
 
 Nexora is a portfolio-grade project management app built with plain HTML5, CSS3 and vanilla JavaScript (ES modules). It behaves like a real productivity tool — projects, tasks, a drag-and-drop Kanban board, analytics, search, notifications, theming, CSV export and JSON backup/restore — but it is a **frontend-only demo**. All data is fictional and is stored in your browser's LocalStorage.
@@ -122,3 +123,5 @@ After deploying, open the live URL in a private/incognito window to confirm the 
 - [ ] Forms show clear messages (empty name/title, due date before start date).
 - [ ] No horizontal page scrolling at 375 px, 768 px and desktop widths.
 - [ ] Tab through the app: focus is always visible, dialogs trap focus, Escape closes dialogs and menus.
+**live Demo**
+https://ahmadeccountant.github.io/Nexora/
